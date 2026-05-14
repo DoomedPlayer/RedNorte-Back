@@ -21,12 +21,8 @@ public class ReasignacionController {
         this.service = service;
     }
 
-    // Se envían los datos básicos de la cita que acaba de ser cancelada
     @PostMapping("/ejecutar")
-    public ResponseEntity<RegistroReasignacion> ejecutarReasignacion(
-            @RequestParam Long idCitaCancelada,
-            @RequestParam String especialidad) {
-        
+    public ResponseEntity<RegistroReasignacion> ejecutarReasignacion(@RequestParam Long idCitaCancelada, @RequestParam String especialidad) {
         RegistroReasignacion resultado = service.procesarCancelacion(idCitaCancelada, especialidad);
         return ResponseEntity.ok(resultado);
     }
