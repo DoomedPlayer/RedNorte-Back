@@ -1,6 +1,6 @@
 # Backend de Salud RedNorte
 
-Este repositorio contiene el backend de "Salud RedNorte", una aplicación de gestión sanitaria. Desarrollado con Spring Boot, este servicio gestiona la información de los pacientes, las citas médicas y un sistema inteligente de listas de espera. Incorpora un mecanismo de reasignación de citas asíncrono mediante RabbitMQ y Resilience4j para una mayor tolerancia a fallos.
+Este repositorio contiene el backend de "Salud RedNorte", una aplicación de gestión hospitalaria. Desarrollado con Spring Boot, este servicio gestiona la información de los pacientes, las citas médicas y un sistema inteligente de listas de espera. Incorpora un mecanismo de reasignación de citas asíncrono mediante RabbitMQ y Resilience4j para una mayor tolerancia a fallos.
 
 ## Funcionalidades principales
 
