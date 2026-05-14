@@ -15,16 +15,16 @@ Este repositorio contiene el backend de "Salud RedNorte", una aplicación de ges
 
 ## Arquitectura y Diseño
 
-La aplicación está construida con una pila Java moderna e incorpora varios patrones de diseño clave:
+La aplicación está construida con un stack de Java moderno e incorpora varios patrones de diseño clave:
 
 * **Framework**: Spring Boot
 * **Persistencia de datos**: Spring Data JPA con Hibernate, conectado a una base de datos Oracle.
 
 * **Mensajería asíncrona**: RabbitMQ para desacoplar el proceso de cancelación y reasignación de citas.
 
-* **Patrón de fábrica**: La `AtencionFactory` crea dinámicamente objetos para diferentes tipos de atención médica (`Consulta`, `Cirugia`, `Urgencia`), cada uno con un nivel de prioridad base específico.
+* **Factory Pattern**: La `AtencionFactory` crea dinámicamente objetos para diferentes tipos de atención médica (`Consulta`, `Cirugia`, `Urgencia`), cada uno con un nivel de prioridad base específico.
 
-* **Patrón de disyuntor**: El `ReasignacionService` utiliza Resilience4j para gestionar de forma segura los fallos en las comunicaciones externas, con un método de reserva para evitar fallos en cascada.
+* **Circuit Breaker Pattern**: El `ReasignacionService` utiliza Resilience4j para gestionar de forma segura los fallos en las comunicaciones externas, con un método de reserva para evitar fallos en cascada.
 
 ## Configuración e instalación
 
@@ -80,17 +80,17 @@ Puede ejecutar la aplicación utilizando el wrapper de Maven incluido en el proy
 ./mvnw spring-boot:run
 ```
 
-La aplicación se iniciará y Conéctese a la base de datos y al intermediario de mensajes configurados.
+La aplicación se iniciará y Conéctese a la base de datos y al message broker.
 
-## Puntos finales de la API
+## Endpoints de la API
 
-Los siguientes son los principales puntos finales de la API que ofrece el servicio:
+Los siguientes son los principales endpoints de la API que ofrece el servicio:
 
 ### Controlador de Pacientes (`/api/pacientes`)
 
 * `POST /registro`: Registra un nuevo paciente.
 
-* **Cuerpo**: Objeto JSON `Paciente`.
+  * **Cuerpo**: Objeto JSON `Paciente`.
 
 * `GET /{rut}`: Recupera los detalles de un paciente según su RUT.
 
@@ -98,9 +98,9 @@ Los siguientes son los principales puntos finales de la API que ofrece el servic
 
 * `POST /registrar`: Agrega un paciente a la lista de espera para un tipo específico de atención médica.
 
-* **Parámetro de consulta**: `tipoAtención` (p. ej., "CONSULTA", "CIRUGÍA", "URGENCIA").
+  * **Parámetro de consulta**: `tipoAtención` (p. ej., "CONSULTA", "CIRUGÍA", "URGENCIA").
 
-* **Cuerpo**: Objeto JSON `PacienteEspera`.
+  * **Cuerpo**: Objeto JSON `PacienteEspera`.
 
 * `GET /lista`: Obtiene la lista completa de pacientes que se encuentran actualmente en la lista de espera.
 
@@ -108,7 +108,7 @@ Los siguientes son los principales puntos finales de la API que ofrece el servic
 
 * `POST /agendar`: Programa una nueva cita.
 
-* **Cuerpo**: Objeto JSON `Cita`.
+  * **Cuerpo**: Objeto JSON `Cita`.
 
 * `PUT /cancelar/{id}`: Cancela una cita existente por su ID.
 
@@ -118,4 +118,4 @@ Los siguientes son los principales puntos finales de la API que ofrece el servic
 
 * `POST /ejecutar`: Inicia manualmente el proceso de reasignación de una cita cancelada. Este endpoint se utiliza para el procesamiento síncrono con un disyuntor.
 
-* **Parámetros de consulta**: `idCitaCancelada`, `especialidad`.
+  * **Parámetros de consulta**: `idCitaCancelada`, `especialidad`.
